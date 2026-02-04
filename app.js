@@ -46,15 +46,17 @@ const PORT = process.env.PORT || 3000;
 //     process.exit(1);
 //   });
 
-  connectDB()
-  .then(() => {
-    console.log('DB connected');
-  })
-  .catch(err => {
-    console.error('DB FAILED:', err.message);
-  });
+  (async function start() {
+    try {
+      await connectDB();
+      console.log('DB connected');
+    } catch (err) {
+      console.error('DB connection failed:', err.message);
+      console.warn('Starting server without a DB connection — check MONGO_URI and logs');
+    }
 
-// ❗ LUÔN listen
-app.listen(PORT, '0.0.0.0', () => {
-  console.log('Server running on', PORT);
-});
+    // Always start the HTTP server so the app responds to health checks
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  })();
