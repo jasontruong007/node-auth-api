@@ -35,13 +35,26 @@ const PORT = process.env.PORT || 3000;
 /* =======================
    START SERVER AFTER DB
 ======================= */
-connectDB()
+// connectDB()
+//   .then(() => {
+//     app.listen(PORT, '0.0.0.0', () => {
+//       console.log(`✅ Server running on port ${PORT}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error('❌ Database connection failed:', err.message);
+//     process.exit(1);
+//   });
+
+  connectDB()
   .then(() => {
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`✅ Server running on port ${PORT}`);
-    });
+    console.log('DB connected');
   })
-  .catch((err) => {
-    console.error('❌ Database connection failed:', err.message);
-    process.exit(1);
+  .catch(err => {
+    console.error('DB FAILED:', err.message);
   });
+
+// ❗ LUÔN listen
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('Server running on', PORT);
+});
