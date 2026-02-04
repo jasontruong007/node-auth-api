@@ -1,6 +1,9 @@
 const express = require('express');
 const connectDB = require('./config/db');
 
+console.log("ENV PORT:", process.env.PORT);
+console.log("ENV MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
+
 const app = express();
 
 /* =======================
