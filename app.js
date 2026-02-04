@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 
+const startupLog = [];
+startupLog.push("ENV PORT: " + process.env.PORT);
+startupLog.push("ENV MONGO: " + (process.env.MONGO_URI ? "OK" : "MISSING"));
 console.log("ENV PORT:", process.env.PORT);
 console.log("ENV MONGO:", process.env.MONGO_URI ? "OK" : "MISSING");
 
@@ -46,6 +49,13 @@ app.get('/health/db', (req, res) => {
     dbConnected: dbConnected,
     mongoUriSet: !!process.env.MONGO_URI,
     status: dbConnected ? 'OK' : 'ERROR'
+  });
+});
+
+app.get('/logs', (req, res) => {
+  res.json({
+    startup: startupLog,
+    mongoUriValue: process.env.MONGO_URI ? "SET" : "NOT SET"
   });
 });
 
